@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HideSearch</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='16,5 28,27 4,27' fill='%23808080'/%3E%3C/svg%3E">
+
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="frontend/web.css">
+    
+</head>
+
+<body>
+
+    <div id="tabs">
+        <button id="new-tab" title="New Tab">+</button>
+    </div>
+
+    <div id="toolbar">
+        <div class="toolbar-nav" aria-label="Navigation controls">
+            <button class="toolbar-button" id="back-button" title="Back">&lt;</button>
+            <button class="toolbar-button" id="forward-button" title="Forward">&gt;</button>
+            <button class="toolbar-button" id="reload-button" title="Reload">↻</button>
+        </div>
+
+        <form id="url-form">
+            <input
+                id="url-input"
+                type="text"
+                placeholder="Enter a URL..."
+                autocomplete="off"
+                spellcheck="false"
+            >
+            <button id="bookmark-button" type="button" title="Bookmark this URL" aria-label="Bookmark this URL" aria-pressed="false">☆</button>
+
+            <div class="toolbar-actions">
+                <button id="settings-button" type="button" title="Settings" aria-label="Settings">Settings</button>
+                <button id="bookmarks-button" type="button" title="Bookmarks" aria-label="Bookmarks">Bookmarks</button>
+                <button id="games-button" type="button" title="Games" aria-label="Games">Games</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="button-box" aria-hidden="true" type="button">
+        <button id="login">Login</button>
+    </div>
+
+    <div id="settings-modal" aria-hidden="true">
+        <div id="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+            <h2 id="settings-title">Settings</h2>
+            <div class="settings-row">
+                <label for="tab-name-input">Rename Current Tab:</label>
+                <input id="tab-name-input" type="text" autocomplete="off" spellcheck="false" placeholder="Enter text...">
+            </div>
+            <div class="settings-row">
+                <label for="browser-name-input">Rename Browser:</label>
+                <input id="browser-name-input" type="text" autocomplete="off" spellcheck="false" placeholder="Enter text...">
+            </div>
+            <div class="settings-row">
+                <label for="favicon-input">Change Favicon:</label>
+                <input id="favicon-input" type="text" autocomplete="off" spellcheck="false" placeholder="https://example.com/favicon.ico">
+            </div>
+            <div class="settings-row">
+                <label for="theme-select">Select Theme:</label>
+                <select id="theme-select">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+            </div>
+            <div class="settings-actions">
+                <button id="close-settings" type="button">Cancel</button>
+                <button id="reset-settings" type="button">Reset</button>
+                <button id="apply-settings-button" type="button">Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="bookmarks-modal" aria-hidden="true">
+        <div id="bookmarks-panel" role="dialog" aria-modal="true" aria-labelledby="bookmarks-title">
+            <h2 id="bookmarks-title">Bookmarks</h2>
+            <div id="bookmarks-list"></div>
+            <div class="settings-actions">
+                <button id="close-bookmarks" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="games-modal" aria-hidden="true">
+        <div id="games-panel" role="dialog" aria-modal="true" aria-labelledby="games-title">
+            <h2 id="games-title">Games</h2>
+            <p>If the game doesn't work, try rebooting it.</p>
+            <div id="games-list"></div>
+            <div class="settings-actions">
+                <button id="close-games" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="pages">
+        <iframe
+            id="iframe-1"
+            class="active"
+            title="Tab 1"
+            srcdoc="
+                <!DOCTYPE html>
+                <html>
+                <body style='
+                    margin:0;
+                    width:100vw;
+                    height:100vh;
+                    display:flex;
+                    justify-content:center;
+                    align-items:center;
+                    flex-direction:column;
+                    background:#202124;
+                    color:white;
+                    font-family:Arial,sans-serif;
+                '>
+                    <h1>HideSearch</h1>
+                    <p>Enter a URL above to browse.</p>
+                </body>
+                </html>
+            "
+        ></iframe>
+    </div>
+
+    <script src="frontend/web.js"></script>
+
+</body>
+</html>
