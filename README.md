@@ -19,6 +19,7 @@ Edit `.env` with local values:
 ```dotenv
 PORT=3000
 BASE_URL=http://localhost:3000
+GOOGLE_CALLBACK_URL=http://localhost:3000/api/auth/google/callback
 SESSION_SECRET=use-a-long-random-value
 GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=your-google-client-secret
@@ -59,6 +60,8 @@ The frontend login control calls `/api/auth/me` on startup. It redirects to Goog
 3. Create an OAuth client with application type **Web application**.
 4. Add `http://localhost:3000/api/auth/google/callback` as an authorized redirect URI.
 5. Put the client ID and secret in `.env`, never in source control.
+
+`GOOGLE_CLIENT_ID` is safe to use in a browser-facing OAuth request, but `GOOGLE_CLIENT_SECRET` must remain server-only. `GOOGLE_CALLBACK_URL` must exactly match the redirect URI registered in Google Cloud. No authorized JavaScript origin is required for this server-side redirect flow.
 
 The implementation follows Google's current server-side OAuth guidance and requests only `openid profile email` for authentication. It does not request Google API access or store refresh tokens. For production, use HTTPS, a strong secret, an appropriate persistent session store instead of the default in-memory store, and a production `BASE_URL`.
 

@@ -46,7 +46,7 @@ app.get("/api/health", (_request, response) => {
 app.use("/api/auth", createAuthRouter());
 app.use("/frontend", express.static(frontendDirectory));
 app.get("/", (_request, response) => {
-    response.sendFile(path.join(projectRoot, "HideSearch.html"));
+    response.sendFile(path.join(projectRoot, "index.html"));
 });
 
 app.use((_request, response) => {

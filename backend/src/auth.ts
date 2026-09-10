@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import { Router, type Request, type Response } from "express";
+import { Router, type Response } from "express";
 import { google } from "googleapis";
 
 const GOOGLE_SCOPES = ["openid", "profile", "email"];
@@ -22,15 +22,18 @@ function getOAuthClient() {
     const clientId = process.env.GOOGLE_CLIENT_ID;
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
     const baseURL = process.env.BASE_URL;
+    const callbackURL = process.env.GOOGLE_CALLBACK_URL || (
+        baseURL ? `${baseURL.replace(/\/$/, "")}/api/auth/google/callback` : undefined
+    );
 
-    if (!clientId || !clientSecret || !baseURL) {
+    if (!clientId || !clientSecret || !callbackURL) {
         return null;
     }
 
     return new google.auth.OAuth2(
         clientId,
         clientSecret,
-        `${baseURL.replace(/\/$/, "")}/api/auth/google/callback`
+        callbackURL
     );
 }
 
@@ -147,6 +150,6 @@ export function isAuthenticationConfigured() {
     return Boolean(
         process.env.GOOGLE_CLIENT_ID &&
         process.env.GOOGLE_CLIENT_SECRET &&
-        process.env.BASE_URL
+        (process.env.GOOGLE_CALLBACK_URL || process.env.BASE_URL)
     );
 }
