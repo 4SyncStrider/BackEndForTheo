@@ -1,0 +1,29 @@
+{
+  "name": "backendfortheo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/backend/src/server.js",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "googleapis": "^178.1.1"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx backend/src/server.ts",
+    "start": "node dist/backend/src/server.js",
+    "test": "npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/express-session": "^1.19.0",
+    "@types/node": "^22.20.2",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}

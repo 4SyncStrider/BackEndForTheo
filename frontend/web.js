@@ -24,6 +24,7 @@
         const applySettingsButton = document.getElementById("apply-settings-button");
         const closeSettingsButton = document.getElementById("close-settings");
         const resetSettingsButton = document.getElementById("reset-settings");
+        const loginButton = document.getElementById("login");
         const MAX_TABS = 12;
         const DEFAULT_BROWSER_NAME = "HideSearch";
         const DEFAULT_THEME = "dark";
@@ -56,6 +57,65 @@
         let browserName = DEFAULT_BROWSER_NAME;
         let faviconHref = DEFAULT_FAVICON;
         let bookmarks = loadBookmarks();
+        let authenticatedUser = null;
+
+        function updateLoginButton() {
+            if (!loginButton) return;
+
+            if (authenticatedUser) {
+                loginButton.textContent = "Account";
+                loginButton.title = `Log out ${authenticatedUser.name}`;
+                loginButton.setAttribute("aria-label", loginButton.title);
+                return;
+            }
+
+            loginButton.textContent = "Login";
+            loginButton.title = "Sign in with Google";
+            loginButton.setAttribute("aria-label", loginButton.title);
+        }
+
+        async function loadAuthenticationState() {
+            try {
+                const response = await fetch("/api/auth/me", {
+                    credentials: "same-origin"
+                });
+
+                if (!response.ok) return;
+
+                const state = await response.json();
+                authenticatedUser = state.authenticated ? state.user : null;
+                updateLoginButton();
+            } catch {
+                // The browser can still be used when the backend is unavailable.
+            }
+        }
+
+        async function toggleAuthentication() {
+            if (!authenticatedUser) {
+                window.location.href = "/api/auth/google";
+                return;
+            }
+
+            try {
+                const response = await fetch("/api/auth/logout", {
+                    method: "POST",
+                    credentials: "same-origin"
+                });
+
+                if (response.ok) {
+                    authenticatedUser = null;
+                    updateLoginButton();
+                }
+            } catch {
+                // Keep the current account state if logout cannot reach the backend.
+            }
+        }
+
+        if (loginButton) {
+            loginButton.addEventListener("click", toggleAuthentication);
+            updateLoginButton();
+            loadAuthenticationState();
+        }
 
         function loadBookmarks() {
             try {
@@ -897,4 +957,6 @@
                 }
             }
         });
+
+        console.log(document);
     
